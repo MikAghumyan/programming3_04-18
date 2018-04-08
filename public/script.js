@@ -18,7 +18,7 @@ var matrix;
 var w = 30;
 var h = 30;
 var side = 24;
-var grassArr = [], xotakerArr = [], gishatichArr = [];
+var grassArr = [], GrassEaterArr = [], predatorArr = [];
 
 function setup() {
     matrix = genMatrix(w, h);
@@ -31,10 +31,10 @@ function setup() {
                 grassArr.push(new Grass(x*1, y*1, 1));
             }
             else if(matrix[y][x] == 2) {
-                xotakerArr.push(new Xotaker(x*1, y*1, 2));
+                GrassEaterArr.push(new GrassEater(x*1, y*1, 2));
             }
             else if(matrix[y][x] == 3) {
-                gishatichArr.push(new Gishatich(x*1, y*1, 3))
+                predatorArr.push(new predator(x*1, y*1, 3))
             }
         }
     }
@@ -64,16 +64,16 @@ function draw() {
         grassArr[i].mul();
     }
 
-    for(var i in xotakerArr) {
-        xotakerArr[i].bazmanal();
-        xotakerArr[i].utel();
-        xotakerArr[i].mahanal();
+    for(var i in GrassEaterArr) {
+        GrassEaterArr[i]. spawn();
+        GrassEaterArr[i].eat();
+        GrassEaterArr[i].die();
     }
 
-    for(var i in gishatichArr) {
-        gishatichArr[i].bazmanal();
-        gishatichArr[i].utel();
-        gishatichArr[i].mahanal();
+    for(var i in predatorArr) {
+        predatorArr[i]. spawn();
+        predatorArr[i].eat();
+        predatorArr[i].die();
     }
 
 }

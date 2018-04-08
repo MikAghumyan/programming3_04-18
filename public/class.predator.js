@@ -1,69 +1,59 @@
-class Gishatich extends LivingCreature{
+class predator extends LivingCreature{
     constructor(x, y, index) {
-        this.multiply = Math.round(Math.random() * 16);
+        super(x,y,index);
         this.energy = Math.round(Math.random() * 16);
-        this.speed = 24
+        this.speed = 24;
+        this.multiply = Math.round(Math.random() * 16);
         matrix[this.y][this.x] = this.index;
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
 
     }
-    yntrelVandak(ch) {
-        super.stanalNorKordinatner();
-        return super.yntrelVandak();
+    
+    chooseCell(character) {
+        super.getNewCoordinates();
+        return super.chooseCell(character);
     }
-
-
-    sharjvel() {
-        var vand = random(this.yntrelVandak(0));
-        if (vand && this.multiply >= this.speed / 2) {
+    move() {
+        var cell = random(super.chooseCell(0));
+        if (cell && this.multiply >= this.speed / 2) {
             this.energy--;
             matrix[this.y][this.x] = 0;
-            this.x = vand[0]; this.y = vand[1];
+            this.x = cell[0]; this.y = cell[1];
             matrix[this.y][this.x] = 3;
         }
     }
 
-    utel() {
+    eat() {
         this.energy--;
-        var vand = random(this.yntrelVandak(2));
-        if (vand && this.multiply >= this.speed / 2) {
+        var cell = random(super.chooseCell(2));
+        if (cell && this.multiply >= this.speed / 2) {
             this.energy += this.speed/2;
             matrix[this.y][this.x] = 0;
-            this.x = vand[0]; this.y = vand[1];
+            this.x = cell[0]; this.y = cell[1];
             matrix[this.y][this.x] = 3;
-            for (var i in xotakerArr) {
-                if (xotakerArr[i].x == this.x && xotakerArr[i].y == this.y) {
-                    xotakerArr.splice(i, 1);
+            for (var i in GrassEaterArr) {
+                if (GrassEaterArr[i].x == this.x && GrassEaterArr[i].y == this.y) {
+                    GrassEaterArr.splice(i, 1);
                 }
             }
         }
-        else this.sharjvel();
+        else this.move();
     }
 
-    bazmanal() {
-        var vand = random(this.yntrelVandak(0));
-        if (vand && this.energy >= this.speed) {
+     spawn() {
+        var cell = random(super.chooseCell(0));
+        if (cell && this.energy >= this.speed) {
             this.energy = 1;
-            var newgishatich = new Gishatich(vand[0], vand[1], 3);
-            gishatichArr.push(newgishatich);
+            var newpredator = new predator(cell[0], cell[1], 3);
+            predatorArr.push(newpredator);
         }
     }
 
-    mahanal() {
+    die() {
         if (this.energy <= -(this.speed / 2)) {
             matrix[this.y][this.x] = 0;
-            for (var i in gishatichArr) {
-                if (gishatichArr[i].x == this.x && gishatichArr[i].y == this.y) {
-                    gishatichArr.splice(i, 1);
+            for (var i in predatorArr) {
+                if (predatorArr[i].x == this.x && predatorArr[i].y == this.y) {
+                    predatorArr.splice(i, 1);
                 }
             }
         }
