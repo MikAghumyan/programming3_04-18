@@ -1,4 +1,4 @@
-class GrassEater extends LivingCreature{
+module.exports = class GrassEater extends LivingCreature{
     constructor(x, y, index) {
         super(x,y,index);
         this.energy = Math.round(Math.random() * 8);

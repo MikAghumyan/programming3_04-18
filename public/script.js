@@ -1,3 +1,8 @@
+//requests
+var Grass = require("./class.grass.js").default.default;
+var GrassEater = require("./class.eatgrass.js");
+var Predator = require("./class.predator.js");
+
 function genMatrix(w, h) {
     var matrix = [];
     for(var y = 0; y < h; y++) {
@@ -29,12 +34,15 @@ function setup() {
         for(var x in matrix[y]) {
             if(matrix[y][x] == 1) {
                 grassArr.push(new Grass(x*1, y*1, 1));
+                console.log(grassArr['index']);
             }
             else if(matrix[y][x] == 2) {
                 GrassEaterArr.push(new GrassEater(x*1, y*1, 2));
+                console.log(GrassEaterArr['index']);
             }
             else if(matrix[y][x] == 3) {
-                predatorArr.push(new predator(x*1, y*1, 3))
+                predatorArr.push(new predator(x*1, y*1, 3));
+                console.log(predatorArr['index']);
             }
         }
     }
@@ -56,7 +64,8 @@ function draw() {
             else if(matrix[y][x] == 3) {
                 fill("red");
             }
-            rect(x * side, y * side, side, side);
+           // rect(x * side, y * side, side, side);
+           console.log();
         }
     }
 

@@ -1,4 +1,4 @@
-class Grass extends LivingCreature {
+module.exports = class Grass extends LivingCreature {
   constructor(x, y, index) {
     super(x,y,index);
     this.multiply = Math.round(Math.random() * 8);
