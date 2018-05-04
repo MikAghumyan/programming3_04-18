@@ -1,4 +1,6 @@
-module.exports = class Grass extends LivingCreature {
+const parentClass = require('./classMain.js');
+
+module.exports = class Grass extends parentClass{
   constructor(x, y, index) {
     super(x,y,index);
     this.multiply = Math.round(Math.random() * 8);

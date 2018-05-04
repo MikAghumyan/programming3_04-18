@@ -1,4 +1,6 @@
-module.exports = class predator extends LivingCreature{
+const parentClass = require('./classMain.js');
+
+module.exports = class predator extends parentClass{
     constructor(x, y, index) {
         super(x,y,index);
         this.energy = Math.round(Math.random() * 16);

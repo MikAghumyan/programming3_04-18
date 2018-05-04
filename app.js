@@ -1,6 +1,11 @@
 var express = require('express');
 var path = require('path');
 var app = express();
+//characters
+
+global.EatGrass = require('./classes/classEatgrass');
+global.Grass = require('./classes/classGrass');
+global.Predator = require('./classes/classPredator');
 
 // Define the port to run on
 app.set('port', process.env.PORT || 3000);

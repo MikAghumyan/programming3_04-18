@@ -1,7 +1,7 @@
 //requests
-var Grass = require("./class.grass.js").default.default;
-var GrassEater = require("./class.eatgrass.js");
-var Predator = require("./class.predator.js");
+// var Grass = require("./class.grass.js").default.default;
+// var GrassEater = require("./class.eatgrass.js");
+// var Predator = require("./class.predator.js");
 
 function genMatrix(w, h) {
     var matrix = [];
