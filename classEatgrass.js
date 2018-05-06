@@ -61,4 +61,7 @@ module.exports = class GrassEater extends parentClass{
             }
         }
     }
+    hello(){
+        console.log('hello');
+    }
 }
