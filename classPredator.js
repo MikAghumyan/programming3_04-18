@@ -1,12 +1,11 @@
-const parentClass = require('./classMain.js');
-
-module.exports = class predator extends parentClass{
+var _parentClass = require('./classMain.js');
+var ParentClass = _parentClass.Parent;
+module.exports = class predator extends ParentClass{
     constructor(x, y, index) {
         super(x,y,index);
         this.energy = Math.round(Math.random() * 16);
         this.speed = 24;
         this.multiply = Math.round(Math.random() * 16);
-        matrix[this.y][this.x] = this.index;
 
     }
     

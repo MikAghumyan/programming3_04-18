@@ -1,11 +1,10 @@
-const parentClass = require('./classMain.js');
-
-module.exports = class Grass extends parentClass{
+var _parentClass = require('./classMain.js');
+var ParentClass = _parentClass.Parent;
+module.exports = class Grass extends ParentClass{
   constructor(x, y, index) {
     super(x,y,index);
     this.multiply = Math.round(Math.random() * 8);
     this.speed = 8;
-    matrix[this.y][this.x] = this.index;
   }
   
     mul() {

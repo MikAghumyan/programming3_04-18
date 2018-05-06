@@ -1,4 +1,4 @@
-module.exports = class LivingCreature {
+var LivingCreature = class  {
     constructor(x, y, index) {
         this.x = x;
         this.y = y;
@@ -40,4 +40,7 @@ module.exports = class LivingCreature {
         ];
     }
 
+}
+module.exports = {
+    Parent:LivingCreature
 }

@@ -1,6 +1,6 @@
-const parentClass = require('./classMain.js');
-
-module.exports = class GrassEater extends parentClass{
+var _parentClass = require('./classMain.js');
+var ParentClass = _parentClass.Parent;
+module.exports = class GrassEater extends ParentClass{
     constructor(x, y, index) {
         super(x,y,index);
         this.energy = Math.round(Math.random() * 8);
