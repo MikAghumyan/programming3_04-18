@@ -19,7 +19,7 @@ module.exports = class predator extends ParentClass{
             this.energy--;
             matrix[this.y][this.x] = 0;
             this.x = cell[0]; this.y = cell[1];
-            matrix[this.y][this.x] = 3;
+            matrix[this.y][this.x] = 3;//vaytem es toghi vra er error tali
         }
     }
 

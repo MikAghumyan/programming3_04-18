@@ -1,3 +1,4 @@
+//ste modulei momentnerna 
 var _parentClass = require('./classMain.js');
 var ParentClass = _parentClass.Parent;
 module.exports = class GrassEater extends ParentClass{

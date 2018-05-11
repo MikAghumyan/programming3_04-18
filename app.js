@@ -3,6 +3,7 @@ var path = require('path');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var socket = io.connect('http://localhost:3000');
 
 
 //characters
@@ -14,7 +15,7 @@ global.EatGrass = new _EatGrass();
 global.Grass = new _Grass();
 global.Predator = new _Predator();
 
-//
+//che lav et errory chi berum mi rope
 function genMatrix(w, h) {
   var matrix = [];
   for (var y = 0; y < h; y++) {
@@ -31,31 +32,10 @@ function genMatrix(w, h) {
   return matrix;
 }
 
-
-
-setInterval(function () {
-  for (var i in grassArr) {
-    grassArr[i].mul();
-  }
-
-  for (var i in GrassEaterArr) {
-    GrassEaterArr[i].spawn();
-    GrassEaterArr[i].eat();
-    GrassEaterArr[i].die();
-  }
-
-  for (var i in predatorArr) {
-    predatorArr[i].spawn();
-    predatorArr[i].eat();
-    predatorArr[i].die();
-  }
-}, 1000);
-
 // Define the port to run on
 
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.get("/", function () {
   res.redircet("public");
 });
@@ -93,10 +73,13 @@ io.on('connection', function (socket) {
       }
     }
   }
+  io.sockets.emit('send sizes', {
+    'w': w,
+    'h': h,
+    'side': side
+  });
   socket.setInterval(function () {
-    socket.on("send variables",function(){
-       io.sockets.emit('send vars', {'w':w,'h':h,'side':side,'matrix':matrix});
-    });
+    io.sockets.emit('send matrix', matrix);
     for (var i in grassArr) {
       grassArr[i].mul();
     }
@@ -114,3 +97,4 @@ io.on('connection', function (socket) {
     }
   }, 1000);
 });
+//aaa es xia xarnvel irar
