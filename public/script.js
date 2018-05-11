@@ -3,7 +3,7 @@ var path = require('path');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-var socket = io.connect('http://localhost:3000');
+
 
 function setup() {
     socket.on('send sizes',function(sizes){
