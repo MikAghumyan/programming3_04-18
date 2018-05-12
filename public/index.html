@@ -6,8 +6,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    
+    <div class="communication">
+        <div class="serverMess"></div>
+        <div class="chat">
+            <div id="write">
+                <input type="text" placeholder="Write Message" id="message">
+                <button id="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="main"></div><br>
 </body>
 </html>

@@ -1,0 +1,23 @@
+body{
+    background-color: #2E4A62;/*sailor blue*/
+}
+.communication , #message{
+    float: left;
+}
+.serverMess , .chat{
+    width: 300px;
+    height: 200px;
+    background-color: #B4B7BA;/*harbor mist*/
+    padding: 3px;
+    margin: 10px;
+    border: 5px solid #C0AB8E;
+}
+#write{
+    position:relative;bottom:0;
+}
+#write *{
+    border: 1pt solid green;    
+}
+br{
+    clear: left;
+}
