@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
+    <script src="game.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <div class="communication">
-        <div class="serverMess"></div>
-        <div class="chat">
-            <div id="write">
-                <input type="text" placeholder="Write Message" id="message">
-                <button id="submit">Submit</button>
-            </div>
+        <div id="messages"></div>
+        <div id="chat">
+            <input type="text" placeholder="Enter messages" id="message">
+            <button id="submit">Submit</button>
+            <br>
         </div>
+        <p>score:</p>
+        <p>energy</p>
     </div>
-    <div class="main"></div><br>
+    <br>
 </body>
 </html>

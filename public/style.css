@@ -1,23 +1,37 @@
 body{
     background-color: #2E4A62;/*sailor blue*/
 }
-.communication , #message{
-    float: left;
+.communication{
+    /* display: flex;
+    flex-wrap:wrap;
+    align: center; */
+    display: inline-table;
+    position: fixed;
 }
-.serverMess , .chat{
-    width: 300px;
-    height: 200px;
+#messages{
     background-color: #B4B7BA;/*harbor mist*/
-    padding: 3px;
-    margin: 10px;
     border: 5px solid #C0AB8E;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding: 5px;
+    width:300px;
+    height: 300px;
+    overflow: scroll;
 }
-#write{
-    position:relative;bottom:0;
+#chat{
+    background-color: #92B558;
+    width: 300px;
+    border: 10px solid #92B558;
 }
-#write *{
-    border: 1pt solid green;    
+#chat *{
+    border: 1pt solid green;
+    display: inline-block;
+    margin :left;
 }
 br{
     clear: left;
+}
+canvas{
+    margin-left: 350px;
+    margin-top: 0px;
 }
