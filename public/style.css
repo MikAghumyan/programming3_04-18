@@ -1,6 +1,7 @@
 body{
     background-color: #2E4A62;/*sailor blue*/
 }
+
 .communication{
     /* display: flex;
     flex-wrap:wrap;
@@ -8,6 +9,7 @@ body{
     display: inline-table;
     position: fixed;
 }
+
 #messages{
     background-color: #B4B7BA;/*harbor mist*/
     border: 5px solid #C0AB8E;
@@ -16,22 +18,44 @@ body{
     padding: 5px;
     width:300px;
     height: 300px;
-    overflow: scroll;
+    overflow: auto;
 }
+
+#chat button {
+    padding: 15px 32px;
+    background-color: rgb(21, 161, 226);
+    color:white;
+    border:none;
+    font-size:16px;
+    margin: 0;
+
+}
+
+#chat input {
+    height:20px;
+}
+
 #chat{
     background-color: #92B558;
     width: 300px;
     border: 10px solid #92B558;
 }
+
 #chat *{
     border: 1pt solid green;
     display: inline-block;
     margin :left;
 }
+
 br{
     clear: left;
 }
+
 canvas{
     margin-left: 350px;
     margin-top: 0px;
+}
+
+b {
+    color:green;
 }

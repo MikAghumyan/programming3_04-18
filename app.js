@@ -10,12 +10,18 @@ app.get('/', function (req, res) {
 });
 server.listen(3000);
 
-io.on('connection', function (socket) {
-  for(var i in messages) {
-    io.sockets.emit("display message", messages[i]);
-  }
-  socket.on("send message", function (data) {
-      messages.push(data);
-      io.sockets.emit("display message", data);
+//listen on every connection
+io.on('connection', (socket) => {
+	console.log('New user connected')
+
+  //listen on new_message
+  socket.on('new_message', (data) => {
+      //broadcast the new message
+      io.sockets.emit('new_message', {message : data.message, user : 'user'});
   })
-});
+
+  //listen on typing
+  socket.on('typing', (data) => {
+    socket.broadcast.emit('typing', {user : 'user'})
+  })
+})
