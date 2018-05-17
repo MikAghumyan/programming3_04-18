@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
     <script src="game.js"></script>
@@ -11,10 +12,11 @@
 <body>
     <div class="communication">
         <div id="messages">
+            <p><b style="color:#FFFFFF">server:</b>Waiting for other players</p>
             <!-- Messages will be printed here -->
         </div>
         <div id="chat">
-            <input type="text" placeholder="Enter messages" id="message">
+            <input type="text" placeholder="Enter messages" id="message" onKeydown="memSort(event);">
             <button id="submit">Submit</button>
             <br>
         </div>

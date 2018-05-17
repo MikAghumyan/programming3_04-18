@@ -1,5 +1,6 @@
 body{
     background-color: #2E4A62;/*sailor blue*/
+    font-family: 'Poppins', sans-serif;
 }
 
 .communication{
@@ -16,19 +17,21 @@ body{
     margin-right: 5px;
     margin-top: 5px;
     padding: 5px;
-    width:300px;
+    width:325px;
     height: 300px;
     overflow: auto;
 }
 
 #chat button {
-    padding: 15px 32px;
+    padding: 10px 28px;
     background-color: rgb(21, 161, 226);
     color:white;
     border:none;
     font-size:16px;
-    margin: 0;
-
+}
+#chat input{
+    padding: 7px 5px;
+    font-size:16px;
 }
 
 #chat input {
@@ -37,7 +40,7 @@ body{
 
 #chat{
     background-color: #92B558;
-    width: 300px;
+    width: 325px;
     border: 10px solid #92B558;
 }
 

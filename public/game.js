@@ -5,9 +5,19 @@ function main() {
     var input = document.getElementById('message');
     var button = document.getElementById('submit');
 
+    var playerName = prompt("Please,enter yor player name");
+    socket.emit('playerName', {
+        user: 'server',
+        color: 'green',
+        message: playerName + " connected."
+    })
     //Emit message
-    function click(){
-        socket.emit('new_message', {user:'user', message : input.value})
+    function click() {
+        socket.emit('new_message', {
+            user: playerName,
+            color: 'green',
+            message: input.value
+        })
     }
 
     button.onclick = click;
