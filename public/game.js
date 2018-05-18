@@ -1,9 +1,12 @@
-function main() {
+$(document).ready(function(){
+
     var socket = io.connect('http://localhost:3000');
-    var writeDiv = document.getElementById('chat');
-    var messDiv = document.getElementById('messages')
-    var input = document.getElementById('message');
-    var button = document.getElementById('submit');
+    var writeDiv = document.getElementById('#chat');
+    var messDiv = document.getElementById('#messages')
+    var input = document.getElementById('#message');
+    var button = document.getElementById('#submit');
+
+    //
 
     // Prompt for setting a username
     var username;
@@ -16,7 +19,11 @@ function main() {
         var message = '';
         if (data.numUsers === 1) {
           message += "there's 1 participant";
-        } else {
+        }
+        else if(data.numUsers === 4){
+            message += "starting game";
+        }
+        else {
           message += "there are " + data.numUsers + " participants";
         }
         addChatMessage({username:'server', message: message});
@@ -89,6 +96,8 @@ function main() {
     // Whenever the server emits 'user joined', log it in the chat body
     socket.on('user joined', (data) => {
         message = data.username + ' joined';
+        addChatMessage({username: 'server', message: message});
+        message = data.username + "'s color is " + data.color;
         addChatMessage({username: 'server', message: message});
     });
 
@@ -165,10 +174,6 @@ function main() {
     // socket.on('typing', (data) => {
     //     alert('typing');
     // })
-
-} // main closing bracket
-
-window.onload = main;
 
 /* 
     //make connection

@@ -3,12 +3,17 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-
 var messages = [{
   writer: 'server',
   color: '#FFFFFF',
   message: 'Hello. This is the first message'
 }];
+var colors = [
+  { color: "red", available: false },
+  { color: "blue", available: false },
+  { color: "green", available: false },
+  { color: "yellow", available: false }
+];
 var players;
 
 // Nuber of connected users
@@ -37,8 +42,15 @@ io.on('connection', (socket) => {
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', (username) => {
+    var color = '';
     if (addedUser) return;
-
+    for (var color = 0;color < colors.length;color++) {
+      if (color.available === false) {
+        color = color.color;
+        break;
+      }
+    }
+    console.log(color);
     // we store the username in the socket session for this client
     socket.username = username;
     ++userNum;
@@ -49,7 +61,8 @@ io.on('connection', (socket) => {
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
       username: socket.username,
-      numUsers: userNum
+      numUsers: userNum,
+      color: color
     });
   });
 
