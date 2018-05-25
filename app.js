@@ -3,23 +3,58 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-var messages = [{
-  writer: 'server',
-  color: '#FFFFFF',
-  message: 'Hello. This is the first message'
-}];
-var colors = [
-  { color: "red", available: false },
-  { color: "blue", available: false },
-  { color: "green", available: false },
-  { color: "yellow", available: false }
-];
-var players;
 
 // Nuber of connected users
-var userNum = 0;
-
-
+var users = [];
+var Players = [{
+  color:'red',
+  campCoords: {
+      x: 0,
+      y: 0
+  },
+  truckCoords: {
+      x: 16,
+      y: 64
+  },
+  campImg:'./Resources/camp_red.png',
+  img: ['./Resources/player_red_1.png', './Resources/player_red_2.png', './Resources/player_red_3.png', './Resources/player_red_4.png']
+}, {
+  color:'blue',
+  campCoords: {
+      x: 14 * 32,
+      y: 0
+  },
+  truckCoords: {
+      x: 14 * 32 +16,
+      y: 64
+  },
+  campImg:'./Resources/camp_blue.png',
+  img: ['./Resources/player_blue_1.png', './Resources/player_blue_2.png', './Resources/player_blue_3.png', './Resources/player_blue_4.png']
+}, {
+  color:'green',
+  campCoords: {
+      x: 0,
+      y: 14*32
+  },
+  truckCoords: {
+      x: 16,
+      y: 14*32
+  },
+  campImg:'./Resources/camp_green.png',
+  img: ['./Resources/player_green_1.png', './Resources/player_green_2.png', './Resources/player_green_3.png', './Resources/player_green_4.png']
+},{
+  color:'yellow',
+  campCoords: {
+      x: 0,
+      y: 0
+  },
+  truckCoords: {
+      x: 14 * 32 +16,
+      y: 14*32
+  },
+  campImg:'./Resources/camp_yellow.png',
+  img: ['./Resources/player_yellow_1.png', './Resources/player_yellow_2.png', './Resources/player_yellow_3.png', './Resources/player_yellow_4.png']
+}];
 app.use(express.static("."));
 app.get('/', function (req, res) {
   res.redirect('./public/index.html');
@@ -42,39 +77,36 @@ io.on('connection', (socket) => {
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', (username) => {
-    var color = '';
     if (addedUser) return;
-    for (var color = 0;color < colors.length;color++) {
-      if (color.available === false) {
-        color = color.color;
-        break;
-      }
-    }
-    console.log(color);
+
     // we store the username in the socket session for this client
     socket.username = username;
-    ++userNum;
+    users.push({name:username,color:Players[users.length].color});
+    console.log(users);
     addedUser = true;
     socket.emit('login', {
-      numUsers: userNum
+      numUsers: users.length
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
       username: socket.username,
-      numUsers: userNum,
-      color: color
+      numUsers: users.length
     });
+    if(users.length >= 4){
+      io.sockets.emit('send_colors',users);
+      console.log('data sent');
+      io.sockets.emit('send_data',Players);
+    }
   });
-
   // when the user disconnects.. perform this
   socket.on('disconnect', () => {
     if (addedUser) {
-      --userNum;
+      --users.length;
 
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
-        numUsers: userNum
+        numUsers: users.length
       });
     }
   });

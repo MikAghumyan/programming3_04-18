@@ -1,15 +1,18 @@
-$(document).ready(function(){
+var username;
+var color;
 
-    var socket = io.connect('http://localhost:3000');
-    var writeDiv = document.getElementById('#chat');
-    var messDiv = document.getElementById('#messages')
-    var input = document.getElementById('#message');
-    var button = document.getElementById('#submit');
+var thisPlayer = {};
+var otherPlayers = [];
 
-    //
+var socket = io.connect('http://localhost:3000');
 
+function main() {
+    var writeDiv = document.getElementById('chat');
+    var messDiv = document.getElementById('messages')
+    var input = document.getElementById('message');
+    var button = document.getElementById('submit');
+    var styleLink = document.getElementById('style');
     // Prompt for setting a username
-    var username;
     //var connected = false;
     //var typing = false;
     //var lastTypingTime;
@@ -18,15 +21,14 @@ $(document).ready(function(){
     const addParticipantsMessage = (data) => { // WORKING
         var message = '';
         if (data.numUsers === 1) {
-          message += "there's 1 participant";
+            message += "there's 1 participant";
+        } else {
+            message += "there are " + data.numUsers + " participants";
         }
-        else if(data.numUsers === 4){
-            message += "starting game";
-        }
-        else {
-          message += "there are " + data.numUsers + " participants";
-        }
-        addChatMessage({username:'server', message: message});
+        addChatMessage({
+            username: 'server',
+            message: message
+        });
     }
 
     // Sets the client's username
@@ -36,8 +38,8 @@ $(document).ready(function(){
         // If the username is valid
         if (username) {
 
-        // Tell the server your username
-        socket.emit('add user', username);
+            // Tell the server your username
+            socket.emit('add user', username);
         }
     }
 
@@ -49,13 +51,13 @@ $(document).ready(function(){
         // Prevent markup from being injected into the message
         // if there is a non-empty message and a socket connection
         if (message) {
-        input.value = '';
-        addChatMessage({
-            username: username,
-            message: message
-        });
-        // tell server to execute 'new message' and send along one parameter
-        socket.emit('new message', message);
+            input.value = '';
+            addChatMessage({
+                username: username,
+                message: message
+            });
+            // tell server to execute 'new message' and send along one parameter
+            socket.emit('new message', message);
         }
     }
 
@@ -96,15 +98,19 @@ $(document).ready(function(){
     // Whenever the server emits 'user joined', log it in the chat body
     socket.on('user joined', (data) => {
         message = data.username + ' joined';
-        addChatMessage({username: 'server', message: message});
-        message = data.username + "'s color is " + data.color;
-        addChatMessage({username: 'server', message: message});
+        addChatMessage({
+            username: 'server',
+            message: message
+        });
     });
 
     // Whenever the server emits 'user left', log it in the chat body
     socket.on('user left', (data) => {
         message = data.username + ' left';
-        addChatMessage({username: 'server', message: message});
+        addChatMessage({
+            username: 'server',
+            message: message
+        });
     });
 
     // // Whenever the server emits 'typing', show the typing message
@@ -150,6 +156,35 @@ $(document).ready(function(){
 
     button.onclick = click;
 
+    socket.on("send_colors", (users) => {
+        console.log(users);
+        for (const user of users) {
+            if (user.name == username) {
+                userColor = user.color;
+                console.log(userColor);
+                break;
+            }
+        }
+    });
+    socket.on("send_data",(players) => {
+        for (const player of players) {
+            if(player.color == userColor){
+                thisPlayer = player;
+                console.log(thisPlayer);
+            }
+            else{
+                otherPlayers.push(player);
+            }
+        }
+        console.log(thisPlayer);
+        console.log(otherPlayers);
+        var script = document.createElement('script');script.src = "./script.js";
+        styleLink.parentNode.insertBefore(script,styleLink);
+        var scriptFunc = document.createElement('script');scriptFunc.src = "./functions.js";
+        script.parentNode.insertBefore(scriptFunc,script);
+        var scriptP5 = document.createElement('script');scriptP5.src = "./p5.min.js";
+        scriptFunc.parentNode.insertBefore(scriptP5,scriptFunc);
+    });
     // //Listen on new_message
     // socket.on("new_message", (data) => {
     //     input.value = '';
@@ -175,10 +210,13 @@ $(document).ready(function(){
     //     alert('typing');
     // })
 
+} // main closing bracket
+
+window.onload = main;
 /* 
     //make connection
     var socket = io.connect('http://localhost:3000')
-
+*/console.log(thisPlayer.campImg);/*
     //buttons and inputs
     var message = $("#message")
     var username = $("#username")
