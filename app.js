@@ -73,6 +73,38 @@ for (var index = 0; index < 7; index++) {
     }
   }
 }
+for (var index = 0; index < 15; index++) {
+  var x = Math.floor((Math.random() * 15) + 1);
+  var y = Math.floor((Math.random() * 15) + 1);
+
+  var available = true;
+  for(i in unavailable){
+    if(x*32 === i) {
+      available = false; break;
+    }
+  }
+  for(i in unavailable){
+    if(y*32 === i) {
+      available = false; break;
+    }
+  }
+}
+for (var index = 0; index < 7; index++) {
+  var x = Math.floor((Math.random() * 15) + 1);
+  var y = Math.floor((Math.random() * 15) + 1);
+
+  var available = true;
+  for(i in unavailable){
+    if(x*32 === i) {
+      available = false; break;
+    }
+  }
+  for(i in unavailable){
+    if(y*32 === i) {
+      available = false; break;
+    }
+  }
+}
 app.use(express.static("."));
 app.get('/', function (req, res) {
   res.redirect('./public/index.html');
