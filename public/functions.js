@@ -1,7 +1,7 @@
-function drawPlayer(player) { // Draw the player
-    image(player, thisPlayer.truckCoords.x, thisPlayer.truckCoords.y);
-    if (playerHasGold) {
-        image(cargo_gold, thisPlayer.truckCoords.x + (side / 8), thisPlayer.truckCoords.y + (side / 8), side - (side / 4), side - (side / 4));
+function drawPlayer(player,x,y,isThis) { // Draw the player
+    image(player, x, y);
+    if (playerHasGold && isThis) {
+        image(cargo_gold, x + (side / 8), y + (side / 8), side - (side / 4), side - (side / 4));
     }
 }
 
@@ -13,6 +13,9 @@ function drawResources() { // Draw the resources
         image(gold, coords.x, coords.y);
     }
     image(thisCampImg, thisPlayer.campCoords.x, thisPlayer.campCoords.y);
+    image(otherCamp1Img, otherPlayers[0].campCoords.x,otherPlayers[0].campCoords.y);
+    image(otherCamp2Img, otherPlayers[1].campCoords.x,otherPlayers[1].campCoords.y);
+    image(otherCamp3Img, otherPlayers[2].campCoords.x,otherPlayers[2].campCoords.y);
 }
 
 // Detect the collision

@@ -13,8 +13,8 @@ var Players = [{
     y: 0
   },
   truckCoords: {
-    x: 16,
-    y: 64
+    x: 2*32,
+    y: 2*32
   },
   campImg: './Resources/camp_red.png',
   img: ['./Resources/player_red_1.png', './Resources/player_red_2.png', './Resources/player_red_3.png', './Resources/player_red_4.png']
@@ -25,7 +25,7 @@ var Players = [{
     y: 0
   },
   truckCoords: {
-    x: 416,
+    x: 13*32,
     y: 64
   },
   campImg: './Resources/camp_blue.png',
@@ -34,27 +34,45 @@ var Players = [{
   color: 'green',
   campCoords: {
     x: 0,
-    y: 448
+    y: 14*32
   },
   truckCoords: {
-    x: 64,
-    y: 416
+    x: 2*32,
+    y: 13*32
   },
   campImg: './Resources/camp_green.png',
   img: ['./Resources/player_green_1.png', './Resources/player_green_2.png', './Resources/player_green_3.png', './Resources/player_green_4.png']
 }, {
   color: 'yellow',
   campCoords: {
-    x: 448,
-    y: 448
+    x: 14*32,
+    y: 14*32
   },
   truckCoords: {
-    x: 416,
-    y: 416
+    x: 13*32,
+    y: 13*32
   },
   campImg: './Resources/camp_yellow.png',
   img: ['./Resources/player_yellow_1.png', './Resources/player_yellow_2.png', './Resources/player_yellow_3.png', './Resources/player_yellow_4.png']
 }];
+var unavailable = [13*32,14*32,2*32,0];
+var resources = [];
+for (var index = 0; index < 7; index++) {
+  var x = Math.floor((Math.random() * 15) + 1);
+  var y = Math.floor((Math.random() * 15) + 1);
+
+  var available = true;
+  for(i in unavailable){
+    if(x*32 === i) {
+      available = false; break;
+    }
+  }
+  for(i in unavailable){
+    if(y*32 === i) {
+      available = false; break;
+    }
+  }
+}
 app.use(express.static("."));
 app.get('/', function (req, res) {
   res.redirect('./public/index.html');
