@@ -1,88 +1,74 @@
-function drawPlayer(player) { // Draw the player
-    image(player,thisPlayer.truckCoords.y,thisPlayer.truckCoords.y);
+function drawPlayer() { // draw the player
+    image(thisPlayerImg, thisPlayer.truckCoords.x, thisPlayer.truckCoords.y);
     if (playerHasGold) {
-        image(cargo_gold,thisPlayer.truckCoords.y + (side / 8), thisPlayer.truckCoords.y + (side / 8), side - (side / 4), side - (side / 4));
+        image(cargo_gold, thisPlayer.truckCoords.x + (side / 8), thisPlayer.truckCoords.y + (side / 8), side - (side / 4), side - (side / 4));
     }
 }
 
-function drawResources() { // Draw the resources
-    for (var coords of obstacles) {
-        image(obstacle,coords.x,coords.y);
-    }  
-    for (var coords of gold) {
-        image(golds,coords.x,coords.y);
+function drawResources() { // draw the resources
+    for (const coords of obstacles) {
+        image(obstacle, coords.x, coords.y);
     }
-    for (var coords of playerCampCoords){
-        image(thisCampImg,coords.x,coords.y);
+    for (const coords of golds) {
+        image(gold, coords.x, coords.y);
     }
+    image(thisCampImg, thisPlayer.campCoords.x, thisPlayer.campCoords.y);
 }
 
-// Detect the collision
-function Collision_right(coords,_side) {
-    var obstacleX = coords.x;
-    var obstacleY = coords.y;
-    var playerOX = thisPlayer.truckCoords.y + (_side / 2);
-    var playerOY = thisPlayer.truckCoords.y + (_side / 2);
+function Collision_right(coords, _side) {
+    var playerX = thisPlayer.truckCoords.x + (side / 2);
+    var playerY = thisPlayer.truckCoords.y + (side / 2);
 
-    var objectOX = obstacleX + (_side / 2);
-    var objectOY = obstacleY + (_side / 2);
+    var objectX = coords.x + (_side / 2);
+    var objectY = coords.y + (_side / 2);
 
-    if (objectOX - playerOX <= _side && objectOX - playerOX >= 0) {
-        if (Math.abs(playerOY - objectOY) < _side) {
+    if (objectX - playerX <= _side && objectX - playerX >= 0) {
+        if (Math.abs(playerY - objectY) < _side) {
             return true;
         }
     }
     return false;
 }
 
-function Collision_left(coords,_side) {
-    var obstacleX = coords.x;
-    var obstacleY = coords.y;
+function Collision_left(coords, _side) {
+    var playerX = thisPlayer.truckCoords.x + (side / 2);
+    var playerY = thisPlayer.truckCoords.y + (side / 2);
 
-    var playerOX = thisPlayer.truckCoords.y + (_side / 2);
-    var playerOY = thisPlayer.truckCoords.y + (_side / 2);
+    var objectX = coords.x + (_side / 2);
+    var objectY = coords.y + (_side / 2);
 
-    var objectOX = obstacleX + (_side / 2);
-    var objectOY = obstacleY + (_side / 2);
-
-    if (playerOX - objectOX <= _side && playerOX - objectOX >= 0) {
-        if (Math.abs(playerOY - objectOY) < _side) {
+    if (playerX - objectX <= _side && playerX - objectX >= 0) {
+        if (Math.abs(playerY - objectY) < _side) {
             return true;
         }
     }
     return false;
 }
 
-function Collision_up(coords,_side) {
-    var obstacleX = coords.x;
-    var obstacleY = coords.y;
+function Collision_up(coords, _side) {
+    var playerX = thisPlayer.truckCoords.x + (side / 2);
+    var playerY = thisPlayer.truckCoords.y + (side / 2);
 
-    var playerOX = thisPlayer.truckCoords.y + (_side / 2);
-    var playerOY = thisPlayer.truckCoords.y + (_side / 2);
+    var objectX = coords.x + (_side / 2);
+    var objectY = coords.y + (_side / 2);
 
-    var objectOX = obstacleX + (_side / 2);
-    var objectOY = obstacleY + (_side / 2);
-
-    if (playerOY - objectOY <= _side && playerOY - objectOY >= 0) {
-        if (Math.abs(playerOX - objectOX) < _side) {
+    if (PlayerY - objectY <= _side && playerY - objectY >= 0) {
+        if (Math.abs(playerX - objectX) < _side) {
             return true;
         }
     }
     return false;
 }
 
-function Collision_down(coords,_side) {
-    var obstacleX = coords.x;
-    var obstacleY = coords.y;
+function Collision_up(coords, _side) {
+    var playerX = thisPlayer.truckCoords.x + (side / 2);
+    var playerY = thisPlayer.truckCoords.y + (side / 2);
 
-    var playerOX = thisPlayer.truckCoords.y + (_side / 2);
-    var playerOY = thisPlayer.truckCoords.y + (_side / 2);
+    var objectX = coords.x + (_side / 2);
+    var objectY = coords.y + (_side / 2);
 
-    var objectOX = obstacleX + (_side / 2);
-    var objectOY = obstacleY + (_side / 2);
-
-    if (objectOY - playerOY <= _side && objectOY - playerOY >= 0) {
-        if (Math.abs(playerOX - objectOX) < _side) {
+    if (objectY - PlayerY <= _side && objectY - playerY >= 0) {
+        if (Math.abs(playerX - objectX) < _side) {
             return true;
         }
     }

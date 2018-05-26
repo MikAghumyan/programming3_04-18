@@ -1,5 +1,6 @@
-var username;
+var username
 var color;
+var gotData = false;
 
 var thisPlayer = {};
 var otherPlayers = [];
@@ -166,24 +167,20 @@ function main() {
             }
         }
     });
-    socket.on("send_data",(players) => {
+    socket.on("send_data", (players) => {
         for (const player of players) {
-            if(player.color == userColor){
+            if (player.color == userColor) {
                 thisPlayer = player;
                 console.log(thisPlayer);
             }
-            else{
+            else {
                 otherPlayers.push(player);
             }
         }
         console.log(thisPlayer);
         console.log(otherPlayers);
-        var script = document.createElement('script');script.src = "./script.js";
-        styleLink.parentNode.insertBefore(script,styleLink);
-        var scriptFunc = document.createElement('script');scriptFunc.src = "./functions.js";
-        script.parentNode.insertBefore(scriptFunc,script);
-        var scriptP5 = document.createElement('script');scriptP5.src = "./p5.min.js";
-        scriptFunc.parentNode.insertBefore(scriptP5,scriptFunc);
+        gotData = true;
+        setup();
     });
     // //Listen on new_message
     // socket.on("new_message", (data) => {

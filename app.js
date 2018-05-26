@@ -7,52 +7,52 @@ var io = require('socket.io')(server);
 // Nuber of connected users
 var users = [];
 var Players = [{
-  color:'red',
+  color: 'red',
   campCoords: {
-      x: 0,
-      y: 0
+    x: 0,
+    y: 0
   },
   truckCoords: {
-      x: 16,
-      y: 64
+    x: 16,
+    y: 64
   },
-  campImg:'./Resources/camp_red.png',
+  campImg: './Resources/camp_red.png',
   img: ['./Resources/player_red_1.png', './Resources/player_red_2.png', './Resources/player_red_3.png', './Resources/player_red_4.png']
 }, {
-  color:'blue',
+  color: 'blue',
   campCoords: {
-      x: 14 * 32,
-      y: 0
+    x: 14 * 32,
+    y: 0
   },
   truckCoords: {
-      x: 14 * 32 +16,
-      y: 64
+    x: 416,
+    y: 64
   },
-  campImg:'./Resources/camp_blue.png',
+  campImg: './Resources/camp_blue.png',
   img: ['./Resources/player_blue_1.png', './Resources/player_blue_2.png', './Resources/player_blue_3.png', './Resources/player_blue_4.png']
 }, {
-  color:'green',
+  color: 'green',
   campCoords: {
-      x: 0,
-      y: 14*32
+    x: 0,
+    y: 448
   },
   truckCoords: {
-      x: 16,
-      y: 14*32
+    x: 64,
+    y: 416
   },
-  campImg:'./Resources/camp_green.png',
+  campImg: './Resources/camp_green.png',
   img: ['./Resources/player_green_1.png', './Resources/player_green_2.png', './Resources/player_green_3.png', './Resources/player_green_4.png']
-},{
-  color:'yellow',
+}, {
+  color: 'yellow',
   campCoords: {
-      x: 0,
-      y: 0
+    x: 448,
+    y: 448
   },
   truckCoords: {
-      x: 14 * 32 +16,
-      y: 14*32
+    x: 416,
+    y: 416
   },
-  campImg:'./Resources/camp_yellow.png',
+  campImg: './Resources/camp_yellow.png',
   img: ['./Resources/player_yellow_1.png', './Resources/player_yellow_2.png', './Resources/player_yellow_3.png', './Resources/player_yellow_4.png']
 }];
 app.use(express.static("."));
@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
 
     // we store the username in the socket session for this client
     socket.username = username;
-    users.push({name:username,color:Players[users.length].color});
+    users.push({ name: username, color: Players[users.length].color });
     console.log(users);
     addedUser = true;
     socket.emit('login', {
@@ -92,10 +92,10 @@ io.on('connection', (socket) => {
       username: socket.username,
       numUsers: users.length
     });
-    if(users.length >= 4){
-      io.sockets.emit('send_colors',users);
+    if (users.length >= 4) {
+      io.sockets.emit('send_colors', users);
       console.log('data sent');
-      io.sockets.emit('send_data',Players);
+      io.sockets.emit('send_data', Players);
     }
   });
   // when the user disconnects.. perform this
