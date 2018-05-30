@@ -198,5 +198,19 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
         }
         energyCount += 0.1;
         energyP.innerText = 'energy: ' + Math.floor(energyCount);
+        if (coordsChanged) {
+            socket.emit('send_new_playerCoords',{
+                color: thisPlayer.color,
+                coords: thisPlayer.truckCoords
+            });
+        }
+        socket.on('new_Coords',function (data) {
+            for (var i = 0; i < otherPlayers.length; i++) {
+                if(otherPlayers[i].color === data.color){
+                    otherPlayers[i].truckCoords.x = data.coords.x;
+                    otherPlayers[i].truckCoords.y = data.coords.y;
+                }
+            }
+        });
     }
 }
