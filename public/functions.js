@@ -9,6 +9,9 @@ function drawResources() { // Draw the resources
     for (var coords of obstacles) {
         image(obstacle, coords.x, coords.y);
     }
+    for (var coords of energies) {
+        image(energy,coords.x,coords.y);
+    }
     for (var coords of golds) {
         image(gold, coords.x, coords.y);
     }
