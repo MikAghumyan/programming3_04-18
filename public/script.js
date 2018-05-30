@@ -1,8 +1,8 @@
-let side = 32;
-let campSide = 64;
-let score = 0;
+var side = 32;
+var campSide = 64;
+var score = 0;
 
-let playerHasGold = false;
+var playerHasGold = false;
 
 function setup() {
     if (gotData) {
@@ -48,7 +48,7 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
             }
             if (!(playerHasGold)) {
                 for (const i in golds) {
-                    let coords = golds[i];
+                    var coords = golds[i];
                     if (Collision_right(coords, side)) {
                         playerHasGold = true;
                         golds.splice(i, 1);
@@ -56,7 +56,7 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
                 }
             }
             for (const i in energies) {
-                let coords = energies[i];
+                var coords = energies[i];
                 if (Collision_right(coords, side)) {
                     energyCount += 10;
                     energies.splice(i, 1);
@@ -87,7 +87,7 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
             }
             if (!(playerHasGold)) {
                 for (const i in golds) {
-                    let coords = golds[i];
+                    var coords = golds[i];
                     if (Collision_left(coords, side)) {
                         playerHasGold = true;
                         golds.splice(i, 1);
@@ -95,7 +95,7 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
                 }
             }
             for (const i in energies) {
-                let coords = energies[i];
+                var coords = energies[i];
                 if (Collision_left(coords, side)) {
                     energyCount += 10;
                     energies.splice(i, 1);
@@ -126,7 +126,7 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
             }
             if (!(playerHasGold)) {
                 for (const i in golds) {
-                    let coords = golds[i];
+                    var coords = golds[i];
 
                     if (Collision_up(coords, side)) {
                         playerHasGold = true;
@@ -135,7 +135,7 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
                 }
             }
             for (const i in energies) {
-                let coords = energies[i];
+                var coords = energies[i];
                 if (Collision_up(coords, side)) {
                     energyCount += 10;
                     energies.splice(i, 1);
@@ -166,7 +166,7 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
             }
             if (!(playerHasGold)) {
                 for (const i in golds) {
-                    let coords = golds[i];
+                    var coords = golds[i];
 
                     if (Collision_down(coords, side)) {
                         playerHasGold = true;
@@ -175,7 +175,7 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
                 }
             }
             for (const i in energies) {
-                let coords = energies[i];
+                var coords = energies[i];
                 if (Collision_down(coords, side)) {
                     energyCount += 10;
                     energies.splice(i, 1);
@@ -198,15 +198,5 @@ function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalo
         }
         energyCount += 0.1;
         energyP.innerText = 'energy: ' + Math.floor(energyCount);
-
-        socket.on('new_Coords', (data) => {
-            for (var player of otherPlayers) {
-                console.log(player);
-                if (player.color === data.color) {
-                    player.truckCoords.x = data.coords.x;
-                    player.truckCoords.y = data.coords.y;
-                }
-            }
-        });
     }
 }
