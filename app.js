@@ -15,7 +15,9 @@ var Players = [{
     y: 2 * 32
   },
   campImg: './Resources/camp_red.png',
-  img: ['./Resources/player_red_1.png', './Resources/player_red_2.png', './Resources/player_red_3.png', './Resources/player_red_4.png']
+  img: ['./Resources/player_red_1.png', './Resources/player_red_2.png', './Resources/player_red_3.png', './Resources/player_red_4.png'],
+  imgIndex: 2,
+  hasGold : false
 }, {
   color: 'blue',
   campCoords: {
@@ -27,7 +29,9 @@ var Players = [{
     y: 64
   },
   campImg: './Resources/camp_blue.png',
-  img: ['./Resources/player_blue_1.png', './Resources/player_blue_2.png', './Resources/player_blue_3.png', './Resources/player_blue_4.png']
+  img: ['./Resources/player_blue_1.png', './Resources/player_blue_2.png', './Resources/player_blue_3.png', './Resources/player_blue_4.png'],
+  imgIndex: 0,
+  hasGold : false
 }, {
   color: 'green',
   campCoords: {
@@ -39,7 +43,9 @@ var Players = [{
     y: 13 * 32
   },
   campImg: './Resources/camp_green.png',
-  img: ['./Resources/player_green_1.png', './Resources/player_green_2.png', './Resources/player_green_3.png', './Resources/player_green_4.png']
+  img: ['./Resources/player_green_1.png', './Resources/player_green_2.png', './Resources/player_green_3.png', './Resources/player_green_4.png'],
+  imgIndex: 2,
+  hasGold : false
 }, {
   color: 'yellow',
   campCoords: {
@@ -51,7 +57,9 @@ var Players = [{
     y: 13 * 32
   },
   campImg: './Resources/camp_yellow.png',
-  img: ['./Resources/player_yellow_1.png', './Resources/player_yellow_2.png', './Resources/player_yellow_3.png', './Resources/player_yellow_4.png']
+  img: ['./Resources/player_yellow_1.png', './Resources/player_yellow_2.png', './Resources/player_yellow_3.png', './Resources/player_yellow_4.png'],
+  imgIndex: 0,
+  hasGold : false
 }];
 var unavailableCoords = ['0 0', '0 32', '32 0', '32 32', '64 64', '448 0', '480 0', '480 32', '448 32', '416 64', '0 448', '0 480', '32 448', '32 480', '64 416', '448 448', '448 480', '480 448', '416 416'];
 var allCoordinates = [];
@@ -153,9 +161,19 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('send_new_playerCoords',(data) => {//ste yndunum em 
-    socket.broadcast.emit("new_Coords",data);//ste ugharkum em myusnerin
+  socket.on('send_new_playerCoords', (data) => { //ste yndunum em 
+    socket.broadcast.emit("new_Coords", data); //ste ugharkum em myusnerin
   });
+  socket.on('new_goldsArr',(data) => {
+    // GoldArr = data;
+    // socket.broadcast.emit('new_goldArr_fromServer',GoldArr);
+  })
+  socket.on('new_energiesArr',(data) => {
+    console.log(EnergyArr);
+    console.log(data);
+    // EnergyArr = data;
+    // socket.broadcast.emit("new_energiesArr_fromServer", EnergyArr);
+  })
   // when the user disconnects.. perform this
   socket.on('disconnect', () => {
     if (addedUser) {

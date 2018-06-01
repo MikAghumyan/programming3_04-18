@@ -1,6 +1,6 @@
-function drawPlayer(player,x,y,isThis) { // Draw the player
+function drawPlayer(player,x,y,playerHasGold,cargo_gold) { // Draw the player
     image(player, x, y);
-    if (playerHasGold && isThis) {
+    if (playerHasGold) {
         image(cargo_gold, x + (side / 8), y + (side / 8), side - (side / 4), side - (side / 4));
     }
 }
