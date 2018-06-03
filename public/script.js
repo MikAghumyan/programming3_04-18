@@ -1,256 +1,153 @@
-var side = 32;
-var campSide = 64;
-var score = 0;
-var newSelectedGold;
-var newUsedEnergy;
+var username;
+var color;
+var gotData = false;
+var energyCount = 50.0;
 
-function setup() {
-    if (gotData) {
-        createCanvas(side * 16, side * 16);
-        grassImg = loadImage('./Resources/grass.png');
-        thisCampImg = loadImage(thisPlayer.campImg);
-        thisPlayerImg = loadImage(thisPlayer.img[thisPlayer.imgIndex]);
-        thisCargo_gold = loadImage('./Resources/cargo_gold_1.png');
+var thisPlayer = {};
+var otherPlayers = [];
+var obstacles = [];
+var golds = [];
+var energies = [];
+var portal = [];
 
-        otherPlayersImg = [loadImage(otherPlayers[0].img[otherPlayers[0].imgIndex]), loadImage(otherPlayers[1].img[otherPlayers[1].imgIndex]), loadImage(otherPlayers[2].img[otherPlayers[2].imgIndex])];
-        otherPlayersCargoImg = [loadImage('./Resources/cargo_gold_1.png'), loadImage('./Resources/cargo_gold_1.png'), loadImage('./Resources/cargo_gold_1.png')];
-        otherCamp1Img = loadImage(otherPlayers[0].campImg);
-        otherCamp2Img = loadImage(otherPlayers[1].campImg);
-        otherCamp3Img = loadImage(otherPlayers[2].campImg);
+const socket = io.connect('http://localhost:3000');
 
-        obstacle = loadImage("./Resources/obstacle_1.png");
-        energy = loadImage("./Resources/power.png");
-        gold = loadImage('./Resources/gold.png');
-    }
-}
+function main() {
+    const writeDiv = document.getElementById('chat');
+    const messDiv = document.getElementById('messages')
+    const input = document.getElementById('message');
+    const button = document.getElementById('submit');
+    const styleLink = document.getElementById('style');
 
-function draw() { //es drawy p5i momentnerica p5y anyndhat krknuma esi intervalov
-    if (gotData) {
-
-        coordsChanged = false;
-        background(grassImg, 0, 0); // Clear the screen
-        const energyP = document.getElementById('energy');
-        drawPlayer(thisPlayerImg, thisPlayer.truckCoords.x, thisPlayer.truckCoords.y, thisPlayer.hasGold, thisCargo_gold); // Draw the thisPlayerImg
-
-        for (var i = 0; i < otherPlayersImg.length; i++) {
-            drawPlayer(otherPlayersImg[i], otherPlayers[i].truckCoords.x, otherPlayers[i].truckCoords.y, otherPlayers[i].hasGold, otherPlayersCargoImg[i]);
+    const addParticipantsMessage = (data) => { // WORKING
+        var message = '';
+        if (data.numUsers === 1) {
+            message += "there's 1 participant";
+        } else {
+            message += "there are " + data.numUsers + " participants";
         }
-
-        drawResources(); // Draw the resources
-        // Add elses in this if contruction to lock diagonal movement
-        if ((keyIsDown(RIGHT_ARROW) || keyIsDown(68)) && thisPlayer.truckCoords.x < (width - side)) {
-            for (const coords of obstacles) {
-                if (Collision_right(coords, side)) return;
-            }
-            for (const player of otherPlayers) {
-                if (Collision_right(player.campCoords, campSide)) return;
-                if (Collision_right(player.truckCoords, side)) return;
-            }
-            if (!(thisPlayer.hasGold)) {
-                for (const i in golds) {
-                    var coords = golds[i];
-                    if (Collision_right(coords, side)) {
-                        thisPlayer.hasGold = true;
-                        newSelectedGold = true;
-                        golds.splice(i, 1);
-                    }
-                }
-            }
-            for (const i in energies) {
-                var coords = energies[i];
-                if (Collision_right(coords, side)) {
-                    newUsedEnergy = true;
-                    energyCount += 10;
-                    energies.splice(i, 1);
-                }
-            }
-            if (Collision_right(thisPlayer.campCoords, campSide)) {
-                thisPlayer.hasGold = false;
-                return;
-            }
-            if (energyCount > 0) {
-                if (thisPlayer.hasGold) {
-                    thisCargo_gold = loadImage('./Resources/cargo_gold_3.png');
-                }
-
-                thisPlayer.truckCoords.x += side / 8;
-                thisPlayer.imgIndex = 2;
-                thisPlayerImg = loadImage(thisPlayer.img[thisPlayer.imgIndex]);
-                energyCount -= 0.4;
-                coordsChanged = true;
-
-            }
-        }
-        if ((keyIsDown(LEFT_ARROW) || keyIsDown(65)) && thisPlayer.truckCoords.x > 0) {
-            for (const coords of obstacles) {
-                if (Collision_left(coords, side)) return;
-            }
-            for (const player of otherPlayers) {
-                if (Collision_left(player.campCoords, campSide)) return;
-                if (Collision_left(player.truckCoords, side)) return;
-            }
-            if (!(thisPlayer.hasGold)) {
-                for (const i in golds) {
-                    var coords = golds[i];
-                    if (Collision_left(coords, side)) {
-                        thisPlayer.hasGold = true;
-                        newSelectedGold = true;
-                        golds.splice(i, 1);
-                    }
-                }
-            }
-            for (const i in energies) {
-                var coords = energies[i];
-                if (Collision_left(coords, side)) {
-                    newUsedEnergy = true;
-                    energyCount += 10;
-                    energies.splice(i, 1);
-                }
-            }
-            if (Collision_left(thisPlayer.campCoords, campSide)) {
-                thisPlayer.hasGold = false;
-                return;
-            }
-            if (energyCount > 0) {
-                if (thisPlayer.hasGold) {
-                    thisCargo_gold = loadImage('./Resources/cargo_gold_1.png');
-                }
-
-                thisPlayer.truckCoords.x -= side / 8;
-                thisPlayer.imgIndex = 0;
-                thisPlayerImg = loadImage(thisPlayer.img[thisPlayer.imgIndex]);
-                energyCount -= 0.4;
-                coordsChanged = true;
-            }
-        }
-        if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && thisPlayer.truckCoords.y > 0) {
-            for (const coords of obstacles) {
-                if (Collision_up(coords, side)) return;
-            }
-            for (const player of otherPlayers) {
-                if (Collision_up(player.campCoords, campSide)) return;
-                if (Collision_up(player.truckCoords, side)) return;
-            }
-            if (!(thisPlayer.hasGold)) {
-                for (const i in golds) {
-                    var coords = golds[i];
-
-                    if (Collision_up(coords, side)) {
-                        thisPlayer.hasGold = true;
-                        newSelectedGold = true;
-                        golds.splice(i, 1);
-                    }
-                }
-            }
-            for (const i in energies) {
-                var coords = energies[i];
-                if (Collision_up(coords, side)) {
-                    newUsedEnergy = true;
-                    energyCount += 10;
-                    energies.splice(i, 1);
-                }
-            }
-            if (Collision_up(thisPlayer.campCoords, campSide)) {
-                thisPlayer.hasGold = false;
-                return;
-            }
-            if (energyCount > 0) {
-                if (thisPlayer.hasGold) {
-                    thisCargo_gold = loadImage('./Resources/cargo_gold_2.png');
-                }
-
-                thisPlayer.truckCoords.y -= side / 8;
-                thisPlayer.imgIndex = 1;
-                thisPlayerImg = loadImage(thisPlayer.img[thisPlayer.imgIndex]);
-                energyCount -= 0.4;
-                coordsChanged = true;
-            }
-        }
-        if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && thisPlayer.truckCoords.y < (height - side)) {
-            for (const coords of obstacles) {
-                if (Collision_down(coords, side)) return;
-            }
-            for (const player of otherPlayers) {
-                if (Collision_down(player.campCoords, campSide)) return;
-                if (Collision_down(player.truckCoords, side)) return;
-            }
-            if (!(thisPlayer.hasGold)) {
-                for (const i in golds) {
-                    var coords = golds[i];
-
-                    if (Collision_down(coords, side)) {
-                        thisPlayer.hasGold = true;
-                        newSelectedGold = true;
-                        golds.splice(i, 1);
-                    }
-                }
-            }
-            for (const i in energies) {
-                var coords = energies[i];
-                if (Collision_down(coords, side)) {
-                    newUsedEnergy = true;
-                    energyCount += 10;
-                    energies.splice(i, 1);
-                }
-            }
-            if (Collision_down(thisPlayer.campCoords, campSide)) {
-                thisPlayer.hasGold = false;
-                return;
-            }
-            if (energyCount > 0) {
-                if (thisPlayer.hasGold) {
-                    thisCargo_gold = loadImage('./Resources/cargo_gold_4.png');
-                }
-
-                thisPlayer.truckCoords.y += side / 8;
-                thisPlayer.imgIndex = 3;
-                thisPlayerImg = loadImage(thisPlayer.img[thisPlayer.imgIndex]);
-                imgIndex = 3;
-                energyCount -= 0.4;
-                coordsChanged = true;
-            }
-        }
-        energyCount += 0.2;
-        energyP.innerText = 'energy: ' + Math.floor(energyCount);
-
-    }
-}
-setInterval(() => {
-    if (coordsChanged) {
-        socket.emit('send_new_playerCoords', {
-            color: thisPlayer.color,
-            coords: thisPlayer.truckCoords,
-            imageIndex: thisPlayer.imgIndex,
-            hasGold: thisPlayer.hasGold
+        addChatMessage({
+            username: 'server',
+            message: message
         });
     }
-    socket.on('new_Coords', function (data) {
-        var selectedPlayer = 0;
-        while (selectedPlayer < otherPlayers.length) {
-            if (otherPlayers[selectedPlayer].color === data.color) {
-                otherPlayers[selectedPlayer].truckCoords.x = data.coords.x;
-                otherPlayers[selectedPlayer].truckCoords.y = data.coords.y;
-                break;
-            }
-            selectedPlayer++;
+
+    // Sets the client's username
+    const setUsername = () => { // WORKING
+        username = prompt('Please enter your name');
+
+        // If the username is valid
+        if (username) {
+
+            // Tell the server your username
+            socket.emit('add user', username);
         }
-        otherPlayers[selectedPlayer].imgIndex = data.imageIndex;
-        otherPlayersImg[selectedPlayer] = loadImage(otherPlayers[selectedPlayer].img[data.imageIndex]);
-        otherPlayers[selectedPlayer].hasGold = data.hasGold;
-        otherPlayersCargoImg[selectedPlayer] = loadImage('./Resources/cargo_gold_' + String(data.imageIndex + 1) + '.png');
-        if (newSelectedGold) {
-            socket.emit('new_goldsArr',golds);
-            newSelectedGold = false;
+    }
+
+    setUsername();
+
+    // Sends a chat message
+    const sendMessage = () => { // HALF WORKING
+        var message = input.value;
+        // Prevent markup from being injected into the message
+        // if there is a non-empty message and a socket connection
+        if (message) {
+            input.value = '';
+            addChatMessage({
+                username: username,
+                message: message
+            });
+            // tell server to execute 'new message' and send along one parameter
+            socket.emit('new message', message);
         }
-        if(newUsedEnergy){
-            socket.emit('new_energiesArr',energies);
-            newUsedEnergy = false;
-        }
-        socket.on('new_goldArr_fromServer',(index) => {
-            golds.splice(index,1);
-        });
-        socket.on('new_energiesArr_fromServer',(index) => {
-            energies.splice(index,1);
+    }
+
+    // Adds the visual chat message to the message list
+    const addChatMessage = (data, options) => { // WORKING
+        // Don't fade the message in if there is an 'X was typing'
+        // const $typingMessages = getTypingMessages(data);
+        // options = options || {};
+        // if ($typingMessages.length !== 0) {
+        //     options.fade = false;
+        //     $typingMessages.remove();
+        // }
+
+        const message = document.createElement("p");
+        const username_element = document.createElement("b");
+        const username = document.createTextNode(data.username);
+        const node = document.createTextNode(": " + data.message);
+        username_element.appendChild(username);
+        message.appendChild(username_element);
+        message.appendChild(node);
+        messDiv.appendChild(message);
+    }
+
+
+    // Whenever the server emits 'login', log the login message
+    socket.on('login', (data) => {
+        connected = true;
+        // Display the welcome message
+        var message = "Welcome to Game Chat – ";
+        addParticipantsMessage(data);
+    });
+
+    // Whenever the server emits 'new message', update the chat body
+    socket.on('new message', (data) => {
+        addChatMessage(data);
+    });
+
+    // Whenever the server emits 'user joined', log it in the chat body
+    socket.on('user joined', (data) => {
+        message = data.username + ' joined';
+        addChatMessage({
+            username: 'server',
+            message: message
         });
     });
-}, 500);
+
+    // Whenever the server emits 'user left', log it in the chat body
+    socket.on('user left', (data) => {
+        message = data.username + ' left';
+        addChatMessage({
+            username: 'server',
+            message: message
+        });
+    });
+
+    button.onclick = sendMessage;
+
+    socket.on("send_colors", (users) => {
+        console.log(users);
+        for (const user of users) {
+            if (user.name == username) {
+                color = user.color;
+                console.log(color);
+                break;
+            }
+        }
+    });
+    socket.on('send_resources',(resources) => {
+        obstacles = resources.obstacles;
+        golds = resources.golds;
+        energies = resources.energy;
+        console.log(golds);
+        console.log(obstacles);
+    });
+    socket.on("send_data", (players) => {
+        for (const player of players) {
+            if (player.color == color) {
+                thisPlayer = player;
+                console.log(thisPlayer);
+            }
+            else {
+                otherPlayers.push(player);
+            }
+        }
+        console.log(thisPlayer);
+        console.log(otherPlayers);
+        gotData = true;
+        setup();
+    });
+} // main closing bracket
+
+window.onload = main;

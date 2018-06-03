@@ -15,6 +15,9 @@ function drawResources() { // Draw the resources
     for (var coords of golds) {
         image(gold, coords.x, coords.y);
     }
+    for(var coords of portal){
+        image(portalImg,coords.x,coords.y);
+    }
     image(thisCampImg, thisPlayer.campCoords.x, thisPlayer.campCoords.y);
     image(otherCamp1Img, otherPlayers[0].campCoords.x,otherPlayers[0].campCoords.y);
     image(otherCamp2Img, otherPlayers[1].campCoords.x,otherPlayers[1].campCoords.y);

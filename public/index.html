@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Game of trucks</title>
     <script src="./p5.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <script src="/socket.io/socket.io.js"></script>
-    <script src="./game.js"></script>
-    <script src="functions.js"></script>
     <script src="./script.js"></script>
+    <script src="./functions.js"></script>
+    <script src="./map.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" id="style">
 </head>
 <body>
     <div class="communication">
         <div id="messages">
-            <p><b style="color:#FFFFFF">server:</b>Waiting for other players</p>
+            
             <!-- Messages will be printed here -->
         </div>
         <div id="chat">
@@ -22,8 +22,10 @@
             <button id="submit">Submit</button>
             <br>
         </div>
-        <p id="score">score:</p>
-        <p id="energy">energy:</p>
+        <div id="info">
+            <p id="score">Score:</p>
+            <p id="energy">Energy:</p>
+        </div>
     </div>
     <br>
 </body>
