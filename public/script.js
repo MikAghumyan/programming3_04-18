@@ -61,7 +61,6 @@ function main() {
             socket.emit('new message', message);
         }
     }
-
     // Adds the visual chat message to the message list
     const addChatMessage = (data, options) => { // WORKING
         // Don't fade the message in if there is an 'X was typing'
@@ -115,6 +114,10 @@ function main() {
     });
 
     button.onclick = sendMessage;
+    document.onkeydown = (e) =>{
+        e = e || window.event;
+        if(e.keyCode == '13') sendMessage();
+    };
 
     socket.on("send_colors", (users) => {
         console.log(users);
