@@ -139,7 +139,9 @@ app.use(express.static("."));
 app.get('/', function (req, res) {
   res.redirect('./public/index.html');
 });
-server.listen(3000);
+const port = process.env.PORT || 3000;
+server.listen(port);
+console.log(port);
 
 //listen on every connection
 io.on('connection', (socket) => {
