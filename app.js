@@ -140,8 +140,9 @@ app.get('/', function (req, res) {
   res.redirect('./public/index.html');
 });
 const port = process.env.PORT || 3000;
-server.listen(port);
-console.log(port);
+server.listen(port,() => {
+  console.log('Server is running at '+port);
+});
 
 //listen on every connection
 io.on('connection', (socket) => {
